@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd ">
+ <!--spring中的依赖注入
+      IOC作用： 降低程序耦合
+      依赖关系的管理：由spring 维护，在当前类用其他类对象，只需在配置文件中说明，就成为依赖注入
+      1.依赖注入的数据：
+              1.基本类型和String
+              2.其他bean
+              3.集合类-->
+    <bean id="accountService3" class="com.ping.Service.impl.AccountServiceImpl3" >
+       <!-- 数组注入-->
+        <property name="myStr" >
+            <array>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </array>
+        </property>
+        <!-- list注入-->
+        <property name="mylist" >
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <!-- Set注入-->
+        <property name="myset" >
+            <set>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </set>
+        </property>
+        <!-- Map注入-->
+        <property name="mymap" >
+            <map>
+                <entry key="zhnagsaan" value="li"></entry>
+                <entry key="zhnagsaan" value="li"></entry>
+                <entry key="zhnagsaan" value="li"></entry>
+            </map>
+        </property>
+        <property name="myprp" >
+            <props>
+               <prop key="zhangs"></prop>
+                <prop key="zhangs"></prop>
+                <prop key="zhangs"></prop>
+            </props>
+        </property>
+    </bean>
+    <!--2.注入方式
+            1.构造函数注入-->
+             <bean id="accountService" class="com.ping.Service.impl.AccountServiceImpl" >
+             <constructor-arg name="name" value="test"></constructor-arg>
+                 <constructor-arg name="age" value="20"></constructor-arg>
+                 <constructor-arg name="birthday" ref="now"></constructor-arg>
+             </bean>
+              <!--配置日期对象-->
+             <bean id="now"  class="java.util.Date"></bean>
+             <!--2.使用set方式-->
+            <bean id="accountService2" class="com.ping.Service.impl.AccountServiceImpl2" >
+             <property name="age" value="18"></property>
+                <property name="birthday" ref="now"></property>
+                <property name="name" value="zhnagsan"></property>
+            </bean>
+             <!--3.使用注解-->
+</beans>
