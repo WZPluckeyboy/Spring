@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xmlns:aop="http://www.springframework.org/schema/aop"
+                                        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--配置spring IOC把Service对象配置进去-->
+    <bean id="accountService" class="com.ping.Service.Impl.IAccountServiceImp"></bean>
+     <!--配置spring AOP
+         1.把通知bean由spring管理-->
+    <bean id="log" class="com.ping.Utile.login"></bean>
+    <!--2.使用AOP：config标签表名开始AOP的配置-->
+    <aop:config>
+        <!--3.使用aop:aspect标签配置切面-->
+        <aop:aspect id="logAdvice" ref="log">
+            <!--4.在内部使用对应标签来配置通知类型-->
+            <!--5.用于指定切入点表达式，该表达式的含义是对业务层哪些方法增强 pintCut-->
+            <!--<aop:before method="printlog" pointcut="execution(public void com.ping.Service.Impl.IAccountServiceImp.saveAccount())"></aop:before>-->
+            <!--全通配* *..*.*(..)-->
+            <!--前置通知-->
+            <aop:before method="Beforeprintlog" pointcut-ref="pt1" ></aop:before>
+            <!--后置通知-->
+            <aop:after-returning method="AfterCommitprintlog" pointcut-ref="pt1"></aop:after-returning>
+            <!--异常通知-->
+            <aop:after-throwing method="AfterThrowprintlog" pointcut="execution(* *..*.*(..))"></aop:after-throwing>
+            <!--最终通知-->
+            <aop:after method="AfterprintLog" pointcut="execution(* *..*.*(..))"></aop:after>
+            <!--配置切入点表达式-->
+            <aop:pointcut id="pt1" expression="execution(* *..*.*(..))"/>
+            <!--配置环绕通知-->
+            <aop:around method="arrountPrintLog" pointcut-ref="pt1"></aop:around>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

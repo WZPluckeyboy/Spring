@@ -1,0 +1,82 @@
+package com.ping.Dao.Imp;
+
+import com.ping.Dao.IAccountDao;
+import com.ping.Utile.ConnectionUtile;
+import com.ping.domain.account;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+
+import java.util.List;
+public class AccountDaoImp implements IAccountDao {
+    private QueryRunner runner;
+    private ConnectionUtile connectionUtile;
+
+    public void setConnectionUtile(ConnectionUtile connectionUtile) {
+        this.connectionUtile = connectionUtile;
+    }
+
+    public void setRunner(QueryRunner runner) {
+        this.runner = runner;
+    }
+
+    public List<account> findAll() {
+        try{
+            return runner.query("select * from account",new BeanListHandler<account>(account.class));
+        }catch (Exception e){
+           throw new RuntimeException(e);
+        }
+    }
+
+    public account findAccountById(Integer accountId) {
+        try {
+            return runner.query("select * from account where id=?",
+                    new BeanHandler<account>(account.class), accountId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveAccount(account account) {
+            try{
+                runner.update("insert into account(id,uid,money) values(?,?,?)"
+                        ,account.getId(),account.getUid(),account.getMoney());
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+    }
+
+    public void updateAccount(account account) {
+        try{
+            runner.update("update account  set id=?,uid=?,money=?"
+                    ,account.getId(),account.getUid(),account.getMoney());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteAccount(Integer accountId) {
+        try{
+            runner.update("delete from account where id=?"
+                    ,accountId);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public account findAccountByUid(Integer uid) {
+        try {
+            List<account> accounts=runner.query("select * from account where uid=?",
+                    new BeanListHandler<account>(account.class), uid);
+            if ((accounts==null ||accounts.size()==0)){
+                return  null;
+            }
+            if(accounts.size()>1){
+                throw  new RuntimeException("结果集不唯一");
+        }
+            return accounts.get(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

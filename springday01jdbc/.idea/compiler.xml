@@ -6,9 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="springday01-Spring-DI" />
-        <module name="springday01-springIOC" />
+        <module name="springday02-accountAnno-IOC" />
+        <module name="springday02-accountAnno-IOCwithoutXML" />
+        <module name="springday04-springJDBCTemplate" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="springday02-accountAnno-IOC" target="1.5" />
+      <module name="springday02accountAnnoIOC" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
